@@ -22,20 +22,23 @@ pipeline {
             steps {
                 // Docker imajını çalıştır
                 script {
-                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8080:8080 --name demo-container")
+                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8989:8989 --name demo-container")
                 }
             }
         }
     }
 
-    post {
-        always {
-            // Docker konteynerini durdur ve temizle
-            script {
-               sh 'docker stop demo-container || true'
-                               sh 'docker rm demo-container || true'
-                               sh 'docker rmi demo-app:${env.BUILD_NUMBER} || true'
-            }
-}
-}
-}
+
+
+   post {
+           always {
+               // Docker konteynerini durdur ve temizle
+               script {
+                   def container = docker.container("demo-container")
+                   if(container) {
+                       container.stop()
+                       container.remove(force: true)
+                   }
+               }
+           }
+       }
