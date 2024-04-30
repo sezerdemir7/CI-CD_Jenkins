@@ -1,40 +1,12 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
+        stage('Analyze image') {
             steps {
-                // GitHub'dan projeyi al
-                git 'https://github.com/sezerdemir7/DemoProject.git'
-            }
-        }
+                // Install Docker Scout
+                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+                
+                // Log into Docker Hub
+                sh 'echo $DOCKER_HUB_PAT | docker login -u $DOCKER_HUB_USER --password-stdin'
 
-        stage('Build Docker Image') {
-            steps {
-                // Docker imajını oluştur
-                script {
-                    docker.build("demo-app:${env.BUILD_NUMBER}")
-                }
+                // Analyze and fail on critical or high vulnerabilities
+                sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
             }
         }
-
-        stage('Run Docker Container') {
-            steps {
-                // Docker imajını çalıştır
-                script {
-                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8080:8080 --name demo-container")
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            // Docker konteynerini durdur ve temizle
-            script {
-                docker.image("demo-app:${env.BUILD_NUMBER}").stop()
-                docker.image("demo-app:${env.BUILD_NUMBER}").remove()
-            }
-        }
-    }
-}
