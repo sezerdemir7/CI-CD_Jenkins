@@ -33,10 +33,13 @@ pipeline {
             // Docker konteynerini durdur ve temizle
             script {
                 try {
-                    bat 'docker stop demo-container'
-                    bat 'docker rm demo-container'
-                    bat "docker rmi demo-app:${env.BUILD_NUMBER}"
+                    // Docker konteynerini durdurma işlemi
+                   // bat 'docker stop demo-container'
+                    // Docker konteynerini temizleme işlemi
+                  //  bat 'docker rm demo-container'
+                    //bat "docker rmi demo-app:${env.BUILD_NUMBER}"
                 } catch (Exception e) {
+                    // Hata durumunda Jenkins işlemi başarısız olsun
                     echo "Hata oluştu: ${e.message}"
                     currentBuild.result = 'FAILURE'
                 }
