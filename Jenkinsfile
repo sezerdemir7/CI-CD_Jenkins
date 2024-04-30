@@ -29,13 +29,3 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            // Docker konteynerini durdur ve temizle
-            script {
-                docker.image("demo-app:${env.BUILD_NUMBER}").stop()
-                docker.image("demo-app:${env.BUILD_NUMBER}").remove()
-            }
-}
-}
-}
