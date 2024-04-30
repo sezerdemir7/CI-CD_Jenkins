@@ -32,10 +32,15 @@ pipeline {
         always {
             // Docker konteynerini durdur ve temizle
             script {
-                bat 'docker stop demo-container '
-                bat 'docker rm demo-container '
-                               bat 'docker rmi demo-app:${env.BUILD_NUMBER}'
+                try {
+                    bat 'docker stop demo-container'
+                    bat 'docker rm demo-container'
+                    bat 'docker rmi demo-app:${env.BUILD_NUMBER}'
+                } catch (Exception e) {
+                    echo "Hata oluştu: ${e.message}"
+                    currentBuild.result = 'FAILURE'
+                }
             }
-}
-}
+        }
+    }
 }
