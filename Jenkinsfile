@@ -11,9 +11,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // Docker imajını oluştur
+                // Docker imajını oluştur (Optional: consider separate build server)
                 script {
-                    docker.build("demo-app:${env.BUILD_NUMBER}")
+                    sh 'docker.build("demo-app:${env.BUILD_NUMBER}")'
                 }
             }
         }
@@ -22,25 +22,19 @@ pipeline {
             steps {
                 // Docker imajını çalıştır
                 script {
-                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8989:8989 --name demo-container")
+                    sh 'docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8989:8989 --name demo-container")'
                 }
             }
         }
     }
 
-
-
-   post {
-           always {
-               // Docker konteynerini durdur ve temizle
-               script {
-                   def container = docker.container("demo-container")
-                   if(container) {
-                       container.stop()
-                       container.remove(force: true)
-                   }
-               }
-           }
-       }
-
-       }
+    post {
+        always {
+            // Docker konteynerini durdur ve temizle
+            script {
+                sh 'docker.image("demo-app:${env.BUILD_NUMBER}").stop()'
+                sh 'docker.image("demo-app:${env.BUILD_NUMBER}").remove()'
+            }
+        }
+    }
+}
