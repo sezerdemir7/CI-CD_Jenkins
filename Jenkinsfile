@@ -35,7 +35,7 @@ pipeline {
                 try {
                     bat 'docker stop demo-container'
                     bat 'docker rm demo-container'
-                    bat 'docker rmi demo-app:${env.BUILD_NUMBER}'
+                    bat "docker rmi demo-app:${env.BUILD_NUMBER}"
                 } catch (Exception e) {
                     echo "Hata oluştu: ${e.message}"
                     currentBuild.result = 'FAILURE'
