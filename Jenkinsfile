@@ -32,7 +32,9 @@ pipeline {
         always {
             // Docker konteynerini durdur ve temizle
             script {
-
+                bat 'docker stop demo-container || true'
+                               bat 'docker rm demo-container || true'
+                               bat 'docker rmi demo-app:${env.BUILD_NUMBER} || true'
             }
 }
 }
