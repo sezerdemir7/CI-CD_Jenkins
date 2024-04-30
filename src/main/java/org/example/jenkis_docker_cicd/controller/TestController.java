@@ -13,4 +13,8 @@ public class TestController {
     public String helloWorld(){
         return  "Hello world jenkis project";
     }
+    @GetMapping("m")
+    public String helloWorld2(){
+        return  "Hello world hello merhaba";
+    }
 }
