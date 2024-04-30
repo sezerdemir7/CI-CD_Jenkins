@@ -1,16 +1,40 @@
 pipeline {
-    agent {
-        dockerfile true
-    }
+    agent any
+
     stages {
-        stage('Back-end') {
-            agent {
-                docker { image 'maven:3.9.6-eclipse-temurin-17-alpine' }
-            }
+        stage('Checkout') {
             steps {
-                sh 'mvn --version'
+                // GitHub'dan projeyi al
+                git 'https://github.com/sezerdemir7/DemoProject.git'
             }
         }
 
+        stage('Build Docker Image') {
+            steps {
+                // Docker imajını oluştur
+                script {
+                    docker.build("demo-app:${env.BUILD_NUMBER}")
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                // Docker imajını çalıştır
+                script {
+                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8080:8080 --name demo-container")
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Docker konteynerini durdur ve temizle
+            script {
+                docker.image("demo-app:${env.BUILD_NUMBER}").stop()
+                docker.image("demo-app:${env.BUILD_NUMBER}").remove()
+            }
+        }
     }
 }
