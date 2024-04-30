@@ -15,6 +15,6 @@ public class TestController {
     }
     @GetMapping("m")
     public String helloWorld2(){
-        return  "Hello world hello eray";
+        return  "Hello world merhaba eray";
     }
 }
