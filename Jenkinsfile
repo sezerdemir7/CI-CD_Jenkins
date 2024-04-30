@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Docker imajını oluştur
                 script {
-                    sh 'docker build -t demo-app:${env.BUILD_NUMBER} .'
+                    docker.build("demo-app:${env.BUILD_NUMBER}")
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 // Docker imajını çalıştır
                 script {
-                    sh 'docker run -d -p 8989:8989 --name demo-container demo-app:${env.BUILD_NUMBER}'
+                    docker.image("demo-app:${env.BUILD_NUMBER}").run("-p 8080:8080 --name demo-container")
                 }
             }
         }
@@ -32,10 +32,10 @@ pipeline {
         always {
             // Docker konteynerini durdur ve temizle
             script {
-                sh 'docker stop demo-container || true'
-                sh 'docker rm demo-container || true'
-                sh 'docker rmi demo-app:${env.BUILD_NUMBER} || true'
+               sh 'docker stop demo-container || true'
+                               sh 'docker rm demo-container || true'
+                               sh 'docker rmi demo-app:${env.BUILD_NUMBER} || true'
             }
-        }
-    }
+}
+}
 }
