@@ -3,6 +3,9 @@ pipeline {
     tools {
             maven 'maven'
         }
+         environment {
+                JAVA_HOME = 'C:\Program Files\Java\jdk-19\bin'
+            }
         stages {
             stage('Build Maven') {
                 steps {
