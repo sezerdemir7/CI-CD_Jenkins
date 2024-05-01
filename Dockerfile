@@ -1,4 +1,3 @@
 FROM openjdk:21
-ARG JAR_FILE=target/*.jar
-COPY jenkis_docker_CI-CD-0.0.1-SNAPSHOT.jar my-project.jar
-ENTRYPOINT ["java","-jar","my-project.jar"]
+ADD target/app.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
