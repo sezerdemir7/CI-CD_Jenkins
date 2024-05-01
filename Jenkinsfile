@@ -29,14 +29,27 @@ pipeline {
                 }
             }
         }
-        stage('Push image to Hub'){
-                    steps{
-                        script{
-                            docker.image("sezer/jenkins:${env.BUILD_NUMBER}").run("-d -p 4444:8080 --name demo-container")
-                        }
-                    }
-                }
+
 
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
