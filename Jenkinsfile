@@ -8,7 +8,7 @@ pipeline {
                 steps {
                     checkout scmGit(
                         branches: [[name: '*/master']],
-                        userRemoteConfigs: [[url: 'https://github.com/Baranll0/SpringBootDockerDemo']]
+                        userRemoteConfigs: [[url: 'https://github.com/sezerdemir7/DemoProject.git']]
                     )
                     bat 'mvn clean install'
                 }
