@@ -7,7 +7,7 @@ pipeline {
             stage('Build Maven') {
                 steps {
                     checkout scmGit(
-                        branches: [[name: '*/main']],
+                        branches: [[name: '*/master']],
                         userRemoteConfigs: [[url: 'https://github.com/Baranll0/SpringBootDockerDemo']]
                     )
                     bat 'mvn clean install'
