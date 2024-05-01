@@ -12,8 +12,8 @@ pipeline {
                      steps {
                          script {
                            // Varolan container'ı durdur ve sil
-                                    docker stop -f demo-container
-                                                docker rm demo-container
+                                    bat 'docker stop demo-container '
+                                    bat 'docker rm demo-container'
                                 }
                            }
                 }
