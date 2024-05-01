@@ -14,7 +14,7 @@
 	<name>jenkis_docker_CI-CD</name>
 	<description>jenkis_docker_CI-CD</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>19</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
