@@ -8,6 +8,15 @@ pipeline {
                 git 'https://github.com/sezerdemir7/DemoProject.git'
             }
         }
+        stage('Stop and Remove Existing Container') {
+                    steps {
+                        script {
+                            // Varolan container'ı durdur ve sil
+                            sh 'docker stop demo-container || true'
+                            sh 'docker rm demo-container || true'
+                        }
+                    }
+                }
 
         stage('Build Docker Image') {
             steps {
