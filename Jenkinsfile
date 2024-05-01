@@ -25,7 +25,7 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    docker.build("sezer/jenkins:${env.BUILD_NUMBER}")
+                    docker.build("demo-container:${env.BUILD_NUMBER}")
                 }
             }
         }
